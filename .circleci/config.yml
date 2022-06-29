@@ -2,6 +2,16 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+commands:
+  sayhello:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      print_pipeline_id:
+        type: string
+        default: $CIRCLE_WORKFLOW_ID
+    steps:
+      - run: echo << parameters.print_pipeline_id >>
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -10,9 +20,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run:
-          name: "print_hello"
-          command: echo "hello world" > ./output.txt
+      - run: echo << parameters.print_pipeline_id >>
+      - run: echo "hello world" > ./output.txt
       - persist_to_workspace:
           root: .     # relative path to our working directory
           paths:      # file globs which will be persisted to the workspace
@@ -24,9 +33,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run:
-          name: "print output text"
-          command: "cat ./output.txt"
+      - run: cat ./output.txt
 
 workflows:
   my_workflow:
