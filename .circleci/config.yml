@@ -22,6 +22,11 @@ jobs:
           root: .     # relative path to our working directory
           paths:      # file globs which will be persisted to the workspace
            - output.txt
+      - bash: return 1
+      - run:
+          name: on error
+          command: echo "Hello Error!"
+          when: on_fail
           
   print_output_file:
     docker:
