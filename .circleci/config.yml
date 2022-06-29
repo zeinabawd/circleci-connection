@@ -22,7 +22,7 @@ jobs:
           root: .     # relative path to our working directory
           paths:      # file globs which will be persisted to the workspace
            - output.txt
-      - run: return 1
+      - run: exit 1
       - run:
           name: on error
           command: echo "Hello Error!"
